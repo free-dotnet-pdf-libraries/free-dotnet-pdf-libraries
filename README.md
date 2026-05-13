@@ -1,2 +1,2 @@
-# free-dotnet-pdf-libraries
+# free .NET PDF libraries
 Free .NET PDF Libraries
