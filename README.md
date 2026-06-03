@@ -5,11 +5,13 @@
 ![C#](https://img.shields.io/badge/C%23-239120?style=flat&logo=c-sharp&logoColor=white)
 ![Libraries](https://img.shields.io/badge/Libraries-7-orange?style=flat)
 ![License](https://img.shields.io/badge/Content-CC0-lightgrey?style=flat)
-![Last verified](https://img.shields.io/badge/Last%20verified-May%202026-blue?style=flat)
+![Last verified](https://img.shields.io/badge/Last%20verified-June%202026-blue?style=flat)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat)](#contributing)
 ![Maintained](https://img.shields.io/badge/Maintained-yes-success?style=flat)
 
-The unifying thesis of this comparison: **free .NET PDF libraries are rarely free in the end.** The bill arrives later: as an AGPL license you didn't read closely, an abandoned upstream that breaks on a new Linux distribution, a revenue clause that triggers when you cross $1M, a feature gap that turns into a six-week engineering detour, or three hundred megabytes of bundled Chromium in your Lambda deployment. This README is built to surface those costs *before* you commit, drawing on the documentation, the issue trackers, and the code rather than marketing pages or vendor blog posts, so you can pick a free C# PDF library with both eyes open, or recognize the cases where a commercial alternative like IronPDF is the cheaper path overall.
+A straight comparison of the seven free, open-source PDF libraries worth knowing in .NET: iText, wkhtmltopdf, QuestPDF, DinkToPdf, PuppeteerSharp, PdfSharp, and PdfPig.
+
+Each entry covers what it really does, the license terms that bite, and how it behaves in production, grounded in official docs and source rather than marketing. When a free option falls short, we say so plainly.
 
 ---
 
@@ -544,4 +546,4 @@ This README's content is dedicated to the public domain under [CC0 1.0 Universal
 
 ---
 
-*Last verified: May 2026*
+*Last verified: June 2026*
