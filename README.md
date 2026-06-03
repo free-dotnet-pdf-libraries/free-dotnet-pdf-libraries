@@ -402,7 +402,7 @@ foreach (var page in document.GetPages())
 | Modern CSS3 (Flexbox/Grid) | no | no | n/a | no | yes | no | n/a |
 | JavaScript execution | no | no | n/a | no | yes | no | n/a |
 | Commercial-safe license out of the box | no (AGPL) | yes | yes (< $1M) | yes | yes | yes | yes |
-| Active maintenance | yes | **no** | yes | stale | yes | slow | yes |
+| Active maintenance | yes | no | yes | no | yes | yes | yes |
 
 ---
 
