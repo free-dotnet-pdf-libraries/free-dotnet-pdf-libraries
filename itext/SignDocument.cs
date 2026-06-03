@@ -1,3 +1,4 @@
+// NuGet: itext7, itext7.bouncy-castle-adapter
 using System.IO;
 using iText.Commons.Bouncycastle.Cert;
 using iText.Commons.Bouncycastle.Crypto;

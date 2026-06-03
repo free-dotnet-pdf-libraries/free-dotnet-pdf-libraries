@@ -1,3 +1,4 @@
+// Requires the wkhtmltopdf binary on PATH (no NuGet package).
 using System;
 using System.Diagnostics;
 

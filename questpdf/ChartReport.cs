@@ -1,3 +1,4 @@
+// NuGet: QuestPDF, ScottPlot
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;

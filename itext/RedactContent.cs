@@ -1,3 +1,4 @@
+// NuGet: itext7, itext7.pdfsweep
 using iText.Kernel.Pdf;
 using iText.PdfCleanup;
 using iText.PdfCleanup.Autosweep;

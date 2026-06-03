@@ -1,0 +1,9 @@
+# Syndication / campaign artifacts — not part of the awesome list
+free-pdf-libraries-campaign-*/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+.vs/
+.idea/
