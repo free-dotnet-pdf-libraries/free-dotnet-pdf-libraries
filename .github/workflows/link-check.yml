@@ -1,0 +1,23 @@
+name: Link Check
+
+# Catches dead links on every change AND on a weekly schedule, so the catalog
+# stays fresh as upstream library pages, releases, and license terms move.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "0 6 * * 1" # every Monday 06:00 UTC
+  workflow_dispatch: {}
+
+jobs:
+  link-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check Markdown links with lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --verbose --no-progress --accept 200,206,429 './**/*.md'
+          fail: true

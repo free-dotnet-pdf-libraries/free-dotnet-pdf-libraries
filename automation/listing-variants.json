@@ -1,0 +1,76 @@
+{
+  "_comment": "Precomputed listing copy for the first 10 weeks. A small rotation that keeps the catalog's title and description current — no AI/model at runtime. 'h1' is the README title; 'description' is the repository's short About text; 'topicsExtra' is merged with topicsCore. Contributors are welcome to improve this wording.",
+  "anchorMondayUtc": "2026-06-08",
+  "topicsCore": [
+    "dotnet",
+    "csharp",
+    "pdf",
+    "pdf-library",
+    "pdf-generation",
+    "html-to-pdf",
+    "open-source",
+    "awesome-list"
+  ],
+  "weeks": [
+    {
+      "week": 1,
+      "h1": "Free .NET PDF Libraries (2026): An Honest, Tested Comparison",
+      "description": "An honest, source-verified comparison of the seven best free and open-source PDF libraries for .NET and C# in 2026 (iText, QuestPDF, PuppeteerSharp, PdfSharp, PdfPig, DinkToPdf, wkhtmltopdf) with licenses, limits, and working code.",
+      "topicsExtra": ["itext", "questpdf", "puppeteer-sharp"]
+    },
+    {
+      "week": 2,
+      "h1": "The Best Free C# PDF Libraries for .NET in 2026",
+      "description": "Which free C# PDF library should you use in .NET? A no-marketing comparison of QuestPDF, iText, PuppeteerSharp, PdfSharp, PdfPig, DinkToPdf, and wkhtmltopdf, covering licenses, capabilities, and the catch behind each.",
+      "topicsExtra": ["pdfsharp", "pdfpig", "csharp-pdf"]
+    },
+    {
+      "week": 3,
+      "h1": "Free Open-Source PDF Libraries for .NET and C#, Compared",
+      "description": "Seven free, open-source PDF libraries for .NET compared on capability, license, and production fitness: generate, edit, render HTML, and extract text in C# without a commercial license.",
+      "topicsExtra": ["pdf-extraction", "pdf-editing", "dotnet-core"]
+    },
+    {
+      "week": 4,
+      "h1": "7 Free .NET PDF Libraries Compared: Licenses, Limits, and Code",
+      "description": "A side-by-side review of seven free .NET PDF libraries: feature matrix, platform support, license traps (AGPL, revenue gates), and runnable C# examples for iText, QuestPDF, PuppeteerSharp, and more.",
+      "topicsExtra": ["itext", "questpdf", "agpl"]
+    },
+    {
+      "week": 5,
+      "h1": "Free C# PDF Library Guide 2026: iText, QuestPDF, PuppeteerSharp and More",
+      "description": "A practical 2026 guide to free C# PDF libraries: when to pick QuestPDF, iText, PuppeteerSharp, PdfSharp, PdfPig, DinkToPdf, or wkhtmltopdf, with code samples and honest license analysis.",
+      "topicsExtra": ["html-to-pdf", "pdf-generation", "csharp-pdf"]
+    },
+    {
+      "week": 6,
+      "h1": "Choosing a Free .NET PDF Library in 2026: The Complete Comparison",
+      "description": "Everything you need to choose a free .NET PDF library in 2026: capability matrix, platform support, true cost of ownership, and working C# code for all seven major open-source options.",
+      "topicsExtra": ["pdf-library", "total-cost-of-ownership", "dotnet"]
+    },
+    {
+      "week": 7,
+      "h1": "Free PDF Generation and Editing Libraries for C# / .NET (2026)",
+      "description": "Generate, edit, sign, and extract PDFs in C# with free libraries. An honest 2026 comparison of iText, QuestPDF, PuppeteerSharp, PdfSharp, PdfPig, DinkToPdf, and wkhtmltopdf: licenses, limits, and code.",
+      "topicsExtra": ["pdf-generation", "digital-signature", "pdf-editing"]
+    },
+    {
+      "week": 8,
+      "h1": "Free .NET PDF Libraries, Honestly Reviewed: Generate, Edit, Extract",
+      "description": "An evidence-first review of free .NET PDF libraries for generating, editing, and extracting PDFs in C#: what each one really does, where it breaks, and the license you didn't read.",
+      "topicsExtra": ["pdf-extraction", "pdfpig", "open-source"]
+    },
+    {
+      "week": 9,
+      "h1": "Open-Source PDF Libraries for .NET in 2026: What Is Actually Free",
+      "description": "Which .NET PDF libraries are actually free to ship? A clear-eyed look at AGPL, MIT revenue gates, and abandoned projects across iText, QuestPDF, PuppeteerSharp, PdfSharp, PdfPig, DinkToPdf, and wkhtmltopdf.",
+      "topicsExtra": ["agpl", "mit-license", "open-source"]
+    },
+    {
+      "week": 10,
+      "h1": "The Free .NET PDF Library Comparison: HTML-to-PDF, Generation, and Extraction",
+      "description": "HTML-to-PDF, code-first generation, or text extraction in C#? Compare the seven leading free .NET PDF libraries by use case, license, and production readiness, with runnable examples.",
+      "topicsExtra": ["html-to-pdf", "pdf-extraction", "puppeteer-sharp"]
+    }
+  ]
+}

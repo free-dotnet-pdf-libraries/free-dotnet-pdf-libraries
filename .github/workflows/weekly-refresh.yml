@@ -1,0 +1,64 @@
+name: Weekly Listing Refresh
+
+# Keeps the catalog's title, description, and freshness markers current.
+# NOT fully automated yet (by design):
+# - The weekly schedule is commented out until you enable it.
+# - Repository description/topics update only if you add an admin token (see below).
+# - It opens a PR for review rather than pushing to main.
+# Run manually meanwhile: Actions tab -> "Weekly Listing Refresh" -> Run workflow.
+
+on:
+  workflow_dispatch: {}
+  # schedule:
+  #   - cron: "0 8 * * 1"   # Mondays 08:00 UTC = 15:00 Asia/Bangkok (ICT).
+  #                         # Note: GitHub-hosted cron is best-effort and can run late under load.
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Applies this week's variant (title, month-gated last-verified, Updated badge)
+      # and emits the repository description + topics as step outputs.
+      # TODO(model): swap this static step for a model call when you integrate one.
+      - id: listing
+        run: node automation/weekly-update.mjs
+
+      # OPTIONAL — update the repository About description + topics.
+      # The default GITHUB_TOKEN cannot edit repository metadata, so this needs a token
+      # with admin rights stored as the secret REPO_ADMIN_TOKEN. Inert until you add it.
+      - name: Update repository description and topics
+        if: ${{ secrets.REPO_ADMIN_TOKEN != '' }}
+        env:
+          GH_TOKEN: ${{ secrets.REPO_ADMIN_TOKEN }}
+        run: |
+          gh repo edit "$GITHUB_REPOSITORY" --description "${{ steps.listing.outputs.description }}"
+          topic_args=$(echo "${{ steps.listing.outputs.topics }}" | tr ',' '\n' | sed 's/^/--add-topic /' | tr '\n' ' ')
+          gh repo edit "$GITHUB_REPOSITORY" $topic_args
+
+      # Opens a PR for review — keeps a human in the loop (no direct push to main).
+      - name: Open pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: chore/weekly-refresh
+          title: "chore: weekly listing refresh (week ${{ steps.listing.outputs.week }})"
+          commit-message: "chore: weekly listing refresh (week ${{ steps.listing.outputs.week }})"
+          labels: automated, maintenance
+          body: |
+            Automated weekly listing refresh from the precomputed list (`automation/listing-variants.json`).
+
+            - README title rotated to this week's variant
+            - "Last verified" updated only if the month changed
+            - "Updated" badge refreshed to today's date
+            - Repository description/topics applied only if `REPO_ADMIN_TOKEN` is configured
+
+            Review and merge, or close to skip this week.
