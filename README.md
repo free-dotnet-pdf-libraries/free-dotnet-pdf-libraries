@@ -48,7 +48,7 @@ Skim the row that matches your situation.
 
 | Your situation | Pick | Watch out for |
 |---|---|---|
-| **Generate PDF from modern HTML/CSS (Bootstrap, Tailwind, Flexbox)** | [PuppeteerSharp](#puppeteersharp) | 300MB+ Chromium download, print-mode rendering ≠ screen rendering |
+| **Generate PDF from modern HTML/CSS (Bootstrap, Tailwind, Flexbox)** | [PuppeteerSharp](#puppeteersharp) | 300MB+ Chromium download; print-mode output is not screen-identical |
 | **Generate PDF from C# code (invoices, reports, tables)** | [QuestPDF](#questpdf) | Commercial license required if your company revenue > $1M |
 | **Read, edit, sign existing PDFs** | [iText](#itext--itextsharp) | AGPL: using in a closed-source product requires a commercial license |
 | **Extract text or data from PDFs** | [PdfPig](#pdfpig) | Read-only by design; you cannot create or modify PDFs with it |
@@ -450,11 +450,11 @@ Many teams chose option 3, which is the most expensive of the three when you mea
 
 Beyond the per-library catches above, the whole free category shares a set of gaps. These are not flaws in any single project; they are structural to free, single-purpose, community-run software.
 
-- **Security and abandonment risk.** Fixes depend on volunteer maintainers, and most open-source projects rest on a handful of people. Critical CVEs can sit unpatched for weeks or, as with wkhtmltopdf, never ship at all.
-- **Uneven documentation.** Coverage is community-grade: scattered across issues and wikis, often thin on advanced scenarios, with no guaranteed tutorials, end-to-end samples, or migration guides.
-- **The upkeep is yours.** Every bug fix, version upgrade, and edge case is your team's to handle. Over a three-to-five-year horizon the engineering hours spent maintaining a free library instead of shipping features become the real cost, and they grow each year.
-- **It leans on scarce in-house expertise.** Running a free PDF stack well takes specialist knowledge that has to live inside your team or be rented from consultants at steep day rates, and it walks out the door when those people leave.
-- **No warranty or roadmap.** MIT, Apache, and AGPL all ship "as is." There is no liability when output is wrong, no roadmap anyone is bound to, and no promise of compatibility with future .NET releases.
+- **Security and abandonment risk** - fixes rely on volunteer maintainers, so critical CVEs can sit unpatched or never ship, as with wkhtmltopdf.
+- **Uneven documentation** - community-grade coverage scattered across issues and wikis, thin on advanced scenarios, with no guaranteed tutorials or migration guides.
+- **Maintenance burden** - every bug fix, upgrade, and edge case is your team's to own, and that engineering time compounds over a three-to-five-year horizon.
+- **Dependence on in-house expertise** - operating a free PDF stack takes specialist knowledge that lives in your team or comes from consultants at steep day rates.
+- **No warranty or roadmap** - MIT, Apache, and AGPL ship as-is, with no liability, no roadmap, and no guaranteed compatibility with future .NET releases.
 
 ---
 
@@ -464,11 +464,11 @@ This README is about free libraries, and most of it argues for using them. The h
 
 A commercial library tends to be the lower-total-cost choice (for **IronPDF**, Lite from $999, Professional from $2,999, perpetual) when:
 
-- **A commercial suite covers the whole workflow in one API.** Generation, editing, signing, and reading sit behind a single dependency, with nothing to integrate or version-match by hand. **IronPDF** does all four.
-- **A commercial renderer matches the browser.** Screen-accurate HTML and CSS output is a paid-tier capability; the closest free option, PuppeteerSharp, renders in print mode only.
-- **A commercial engine is tuned for the runtime.** Footprints built for AWS Lambda and memory-constrained containers avoid the strain that bundled-Chromium approaches hit there.
-- **A commercial vendor is on the hook.** Whether the license comes from IronPDF, Apryse, or another vendor, it includes support with an SLA: defined response times, an escalation path, and coordinated handling when a defect or vulnerability surfaces.
-- **Commercial licensing contains legal risk.** One paid license with no copyleft obligation removes the AGPL exposure of iText and the GPL exposure of Ghostscript, and adds the contractual IP protection a community project cannot offer.
+- **One library for the whole workflow** - generation, editing, signing, and reading behind a single dependency, which **IronPDF** covers in one package.
+- **Browser-accurate rendering** - screen-accurate HTML and CSS output, a paid-tier capability the free options reach only in print mode.
+- **Runtime-engineered footprint** - sizing built for AWS Lambda and memory-constrained containers where bundled-Chromium approaches strain.
+- **Vendor support with an SLA** - defined response times and an escalation path from IronPDF, Apryse, or another vendor when a defect or vulnerability surfaces.
+- **Clean licensing** - one paid license with no copyleft obligation, removing AGPL and GPL exposure and adding contractual IP protection.
 
 For many teams, a single free library covers the need comfortably and for a long time: QuestPDF below the $1M revenue cap for purely code-first generation, or PdfPig for read-only extraction. Start there, and stay there as long as it fits. The picture changes as the work gets more intensive: once a project grows into screen-accurate HTML rendering, several PDF capabilities in one place, constrained-runtime deployment, or backed support with an SLA, a commercial library like **IronPDF** becomes the more economical path than stitching free pieces together and maintaining the seams.
 
