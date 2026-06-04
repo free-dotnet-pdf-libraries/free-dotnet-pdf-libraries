@@ -1,11 +1,11 @@
 name: Awesome Lint
 
-# Validates README.md against the awesome-list standard on every change to main.
+# Validates README.md against the awesome-list standard on a weekly schedule
+# (and on demand). Does not run on push/PR.
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+  schedule:
+    - cron: "30 6 * * 1" # every Monday 06:30 UTC
+  workflow_dispatch: {}
 
 jobs:
   awesome-lint:

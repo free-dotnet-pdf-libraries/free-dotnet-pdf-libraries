@@ -1,12 +1,9 @@
 name: Link Check
 
-# Catches dead links on every change AND on a weekly schedule, so the catalog
-# stays fresh as upstream library pages, releases, and license terms move.
+# Catches dead links on a weekly schedule (and on demand), so the catalog stays
+# fresh as upstream library pages, releases, and license terms move.
+# Does not run on push/PR.
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
   schedule:
     - cron: "0 6 * * 1" # every Monday 06:00 UTC
   workflow_dispatch: {}

@@ -1,12 +1,12 @@
 # WkhtmltoPdf Alternative C#: A Deliberate Look at the Supportability Question in 2026
 
-Let me walk you through the evaluation, not the verdict.
+What follows walks through the evaluation rather than jumping to a verdict.
 
-You're reading this because somebody on your team — security, compliance, a sharp-eyed reviewer at code review — pointed at a NuGet package in your `.csproj` and asked: *is this still maintained, and does it matter for what we're doing with it?* The package is a wkhtmltopdf wrapper. Maybe [DinkToPdf](https://github.com/rdvojmoc/DinkToPdf), maybe [Wkhtmltopdf.NetCore](https://www.nuget.org/packages/Wkhtmltopdf.NetCore/), maybe a homegrown `Process.Start` shim around the CLI. The wrapper is incidental. The thing it wraps is the conversation.
+You're reading this because somebody on your team (security, compliance, a sharp-eyed reviewer at code review) pointed at a NuGet package in your `.csproj` and asked: *is this still maintained, and does it matter for what we're doing with it?* The package is a wkhtmltopdf wrapper. Maybe [DinkToPdf](https://github.com/rdvojmoc/DinkToPdf), maybe [Wkhtmltopdf.NetCore](https://www.nuget.org/packages/Wkhtmltopdf.NetCore/), maybe a homegrown `Process.Start` shim around the CLI. The wrapper is incidental. The thing it wraps is the conversation.
 
-A note on who's writing this: as a Developer Advocate at Iron Software, I'm clearly biased — we make [IronPDF](https://ironpdf.com/), in the same neighborhood as wkhtmltopdf for HTML-to-PDF. Treat this as one informed perspective, not a neutral report. I'll walk through what the public record says about wkhtmltopdf in May 2026 and hand you a conditions-based framework. Two legitimate answers, and which applies depends on facts about your deployment that I don't have.
+This article walks through what the public record says about wkhtmltopdf in May 2026 and offers a conditions-based framework. There are two legitimate answers, and which applies depends on facts about a given deployment.
 
-Here's the typical wrapper code you probably have somewhere:
+Here's the typical wrapper code many teams have somewhere:
 
 ```csharp
 using DinkToPdf;
@@ -32,7 +32,7 @@ Eight lines, one converter, one PDF. The reason this code is in production at so
 
 ## What WkhtmltoPdf Did Well in Its Prime
 
-Before the conditions analysis, I want to spend real time on what the GitHub banner doesn't tell you, because the banner reduces a decade of legitimate engineering to a single timestamp. Wkhtmltopdf earned its place. It solved a hard problem with an unreasonably small surface area.
+Before the conditions analysis, it is worth spending real time on what the GitHub banner does not tell you, because the banner reduces a decade of legitimate engineering to a single timestamp. Wkhtmltopdf earned its place. It solved a hard problem with an unreasonably small surface area.
 
 **The core idea was excellent.** Take a real browser engine, WebKit, the same family that powered Safari and early Chrome, embed it in a command-line tool, and let it do the layout work that browsers had already gotten right. CSS, images, fonts, page-break behavior, headers and footers: all of it came along because WebKit handled it. The output looked like the browser said it would look, because it *was* the browser rendering to a PDF surface instead of a screen. In an era when most "HTML to PDF" tools were doing string-replacement on a custom subset of HTML, wkhtmltopdf was running the actual page through the actual layout engine. That was a meaningful jump in quality, and downstream PDF generators have been chasing it ever since.
 
@@ -52,7 +52,7 @@ GitHub's [archive feature](https://docs.github.com/en/repositories/archiving-a-g
 
 For wkhtmltopdf, the archive timestamp is January 2, 2023, 1,225 days ago as of this writing. The whole [wkhtmltopdf GitHub organization](https://github.com/wkhtmltopdf) is similarly closed off. The [wkhtmltopdf.org](https://wkhtmltopdf.org/) homepage still serves docs and download links, but the GitHub side is structurally inert. You can read the code. You cannot get a fix into it. The last upstream release is [0.12.6, dated June 10, 2020](https://github.com/wkhtmltopdf/wkhtmltopdf/releases), 2,161 days ago. There is no roadmap and no indication the archive is temporary.
 
-The maintainer's own [status page](https://wkhtmltopdf.org/status.html), written before the archive event, is candid in a way I respect. The relevant passage reads, verbatim:
+The maintainer's own [status page](https://wkhtmltopdf.org/status.html), written before the archive event, is notably candid. The relevant passage reads, verbatim:
 
 > "Qt 4 (which wkhtmltopdf uses) hasn't been supported since 2015, the WebKit in it hasn't been updated since 2012."
 
@@ -62,7 +62,7 @@ The maintainer's framing is a useful map. The status page does not tell every te
 
 ## The Qt WebKit Root Cause
 
-In 2015, Qt announced that QtWebKit was [deprecated and would be removed from the Qt 5.6 release](https://www.qt.io/blog/2015/12/18/qt-5-6-beta-released), in favor of `QtWebEngine`, built on Chromium. From 2016 onward, every official Qt release has shipped without QtWebKit. Community efforts to keep QtWebKit alive exist, but they package WebKit versions years behind upstream — not the same as ongoing engine-level maintenance.
+In 2015, Qt announced that QtWebKit was [deprecated and would be removed from the Qt 5.6 release](https://www.qt.io/blog/2015/12/18/qt-5-6-beta-released), in favor of `QtWebEngine`, built on Chromium. From 2016 onward, every official Qt release has shipped without QtWebKit. Community efforts to keep QtWebKit alive exist, but they package WebKit versions years behind upstream, which is not the same as ongoing engine-level maintenance.
 
 Wkhtmltopdf is built on a [patched fork of Qt 4](https://github.com/wkhtmltopdf/qt), itself archived, embedding the older WebKit. So when the status page says the WebKit "hasn't been updated since 2012," it's precise: the rendering engine inside the binary is a 2012-vintage WebKit fork inside a 2015-deprecated Qt fork, with neither layer receiving upstream security patches. That's the reason a community fork picking up engine-level maintenance has never materialized at meaningful scale. There's no indication that will change.
 
@@ -74,15 +74,15 @@ The published vulnerabilities are not theoretical. The most cited is [CVE-2022-3
 
 There is also [CVE-2020-21365](https://nvd.nist.gov/vuln/detail/CVE-2020-21365), a directory traversal issue in wkhtmltopdf through 0.12.5. The [Snyk advisory](https://security.snyk.io/vuln/SNYK-UNMANAGED-WKHTMLTOPDFWKHTMLTOPDF-2988835) for CVE-2022-35583 lists "no fixed version," and that field will stay empty because the upstream cannot ship one.
 
-The honest part. The project's stated position on CVE-2022-35583 is that the SSRF vector is a property of application input handling rather than an engine defect. That position is contestable, and I'd argue it understates the architectural piece, but it's part of the public record. The mitigation everyone reaches for is the [`--disable-local-file-access`](https://wkhtmltopdf.org/usage/wkhtmltopdf.txt) flag, which restricts the renderer's ability to fetch `file://` URLs. That helps with the local-file-disclosure side. It does not, on its own, address the SSRF side, where the iframe payload points at an internal HTTP endpoint or a cloud metadata service like `169.254.169.254`. Mitigating the SSRF properly requires explicit network-egress controls, strict input handling, and a documented posture on what your renderer is allowed to reach. None of that happens automatically. It is real, ongoing work.
+The honest part. The project's stated position on CVE-2022-35583 is that the SSRF vector is a property of application input handling rather than an engine defect. That position is contestable, and it arguably understates the architectural piece, but it is part of the public record. The mitigation everyone reaches for is the [`--disable-local-file-access`](https://wkhtmltopdf.org/usage/wkhtmltopdf.txt) flag, which restricts the renderer's ability to fetch `file://` URLs. That helps with the local-file-disclosure side. It does not, on its own, address the SSRF side, where the iframe payload points at an internal HTTP endpoint or a cloud metadata service like `169.254.169.254`. Mitigating the SSRF properly requires explicit network-egress controls, strict input handling, and a documented posture on what your renderer is allowed to reach. None of that happens automatically. It is real, ongoing work.
 
-That point is load-bearing: CVE-2022-35583 is not mitigated by routine application practices. Mitigating it is explicit work, and whether your team will commit to that work — visibly, on a recurring basis — is one of the conditions that decides which path applies.
+That point is load-bearing: CVE-2022-35583 is not mitigated by routine application practices. Mitigating it is explicit work, and whether your team will commit to that work, visibly and on a recurring basis, is one of the conditions that decides which path applies.
 
 ## Why "archived" means "not recommended for new commercial use"
 
 The article so far has stayed even-handed between two legitimate paths, and the conditions test below preserves that posture for teams already operating wkhtmltopdf in production. The position worth stating separately is for teams considering a *new* adoption in 2026: the recommendation is to not adopt wkhtmltopdf for any new commercial workload, regardless of how the conditions test would read for the workload's other attributes.
 
-The reasoning is structural rather than editorial. wkhtmltopdf's last upstream release shipped in June 2020. The project was archived in January 2023 by the maintainer's own action — not a passive lapse, but a documented decision to close the repository to commits, issues, and releases. CVE-2022-35583, the SSRF disclosed against version 0.12.6, has a CVSS 3.1 base score of 9.8 (critical) and remains [tracked on the archived repository's issue tracker](https://github.com/wkhtmltopdf/wkhtmltopdf/issues/5249) with no fixed version because the upstream cannot ship one. CVE-2020-21365, a directory traversal in versions through 0.12.5, is in the same state. Any new CVE disclosed against the Qt 4 / WebKit lineage the engine carries cannot be patched here either.
+The reasoning is structural rather than editorial. wkhtmltopdf's last upstream release shipped in June 2020. The project was archived in January 2023 by the maintainer's own action, a documented decision (not a passive lapse) to close the repository to commits, issues, and releases. CVE-2022-35583, the SSRF disclosed against version 0.12.6, has a CVSS 3.1 base score of 9.8 (critical) and remains [tracked on the archived repository's issue tracker](https://github.com/wkhtmltopdf/wkhtmltopdf/issues/5249) with no fixed version because the upstream cannot ship one. CVE-2020-21365, a directory traversal in versions through 0.12.5, is in the same state. Any new CVE disclosed against the Qt 4 / WebKit lineage the engine carries cannot be patched here either.
 
 For a team carrying an existing wkhtmltopdf dependency, the conditions test below describes a defensible posture. For a team standing at `dotnet add package` and choosing what to render HTML to PDF with this quarter, the calculus is different. A new commercial adoption in 2026 means deliberately taking on a known-critical-CVE dependency with no upstream patch path, into a security-questionnaire era where every SOC 2, ISO 27001, and customer due-diligence review enumerates the dependency tree. The compensating-control overhead Path A describes is real, ongoing engineering work, and "we chose this dependency knowing the upstream was archived" reads differently in a vendor-risk review than "we inherited this dependency and are managing it."
 
@@ -127,14 +127,18 @@ This path costs ongoing attention. In exchange, you keep a tool that works, avoi
 
 Appropriate when any of the following hold: HTML inputs include user-supplied content, externally-audited SBOM, regulatory environment requiring patch traceability, team unwilling to carry the compensating-control overhead, or a preference for tooling with an active upstream.
 
-The maintainer's status page recommends [WeasyPrint](https://weasyprint.org/), [Prince](https://www.princexml.com/), or [Puppeteer](https://pptr.dev/) depending on use case. On the .NET commercial side, [IronPDF](https://ironpdf.com/) is one option I'm naturally going to know best, and there are others. The migration cost is real but bounded: typically a focused day or two for a single template, plus visual-regression testing. You do the work once, and the supportability question stops appearing in your audits.
+The maintainer's status page recommends [WeasyPrint](https://weasyprint.org/), [Prince](https://www.princexml.com/), or [Puppeteer](https://pptr.dev/) depending on use case. The migration cost is real but bounded: typically a focused day or two for a single template, plus visual-regression testing. You do the work once, and the supportability question stops appearing in your audits.
 
 ## Closing: The Conditions Test
 
-The documentary record on wkhtmltopdf is settled — the archive flag, the 2020 last release, the CVE state, the Qt WebKit deprecation timeline, the maintainer's status page. None are editorial, and none will change on a timeline that affects your 2026 planning. What's not settled is which of the two paths fits your workload.
+The documentary record on wkhtmltopdf is settled: the archive flag, the 2020 last release, the CVE state, the Qt WebKit deprecation timeline, the maintainer's status page. None are editorial, and none will change on a timeline that affects your 2026 planning. What's not settled is which of the two paths fits your workload.
 
-**Path A — continue with wkhtmltopdf under compensating controls** — is for teams with fully controlled HTML inputs, restricted network egress, internal-only SBOMs, no regulatory patch-traceability requirement, and the bandwidth to carry explicit ongoing work: mitigating CVE-2022-35583, documenting the patch-delivery posture, and reevaluating on a planned cadence.
+**Path A, continue with wkhtmltopdf under compensating controls,** is for teams with fully controlled HTML inputs, restricted network egress, internal-only SBOMs, no regulatory patch-traceability requirement, and the bandwidth to carry explicit ongoing work: mitigating CVE-2022-35583, documenting the patch-delivery posture, and reevaluating on a planned cadence.
 
-**Path B — migrate to an alternative** — is for teams whose HTML inputs include user-supplied content, whose SBOM is externally audited, whose regulatory environment requires patch traceability, or who prefer tooling with an active upstream. The maintainer's status page recommends WeasyPrint, Prince, or Puppeteer; commercial .NET options including IronPDF are also available.
+**Path B, migrate to an alternative,** is for teams whose HTML inputs include user-supplied content, whose SBOM is externally audited, whose regulatory environment requires patch traceability, or who prefer tooling with an active upstream. The maintainer's status page recommends WeasyPrint, Prince, or Puppeteer.
 
 Run the conditions test against your workload. If most Path A conditions hold and your team will do the work, Path A is defensible: make the decision deliberately, write it down, name an owner, put a reevaluation on the calendar. If most Path B conditions hold, plan the migration and treat the visual-regression work as the real cost. Both are legitimate engineering positions for the conditions they apply to. The position that isn't legitimate is the third: running an archived dependency without having made the call, without compensating controls, and without an owner. That's the situation the conditions test exists to retire.
+
+## Migrating off an archived engine
+
+wkhtmltopdf's API is fine; **the engine is the liability: archived, unpatched, and stuck on a pre-Flexbox Qt WebKit**. For a team whose SBOM is audited, or whose HTML has drifted past what CSS2 can render, the practical question is what to migrate to, and a maintained commercial library can answer it. IronPDF is one such option, rendering through a current Chromium engine (modern CSS, JavaScript, web fonts) and publishing a [direct wkhtmltopdf-to-IronPDF migration guide](https://ironpdf.com/blog/migration-guides/migrate-from-wkhtmltopdf-to-ironpdf/); its [HTML-to-PDF API](https://ironpdf.com/tutorials/html-to-pdf/) maps closely enough to the old `Process` or wrapper call that the swap is mostly mechanical.

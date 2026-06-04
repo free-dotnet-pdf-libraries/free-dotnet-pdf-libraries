@@ -8,9 +8,9 @@
 
 There is a particular meeting that happens at growing SaaS companies, usually in the second half of a year that has gone better than the founders expected. Revenue is on track to cross $1M. The board deck is polished. And somewhere on slide eleven, a finance lead mentions that one of the company's core dependencies is a PDF library called QuestPDF, and that the Community License the engineering team adopted four years ago at the seed stage no longer fits the company that has emerged.
 
-I'm Jacob Mellor, CTO and co-founder at Iron Software. *Full disclosure up front: my company sells [IronPDF](https://ironpdf.com/), a commercial .NET PDF library, so I'm an interested party in any conversation about commercial PDF licensing.* What I want to do here is not to tell you which library to buy. I want to give you the math you can run yourself.
+This lays out the math you can run yourself rather than telling you which library to buy.
 
-In my years leading Iron Software's technical direction, I have watched dozens of teams reach the moment described above. The architectural decision they are about to revisit is one they made under different conditions: smaller team, no revenue, optimistic timeline. The library they chose was, in many cases, [QuestPDF](https://www.questpdf.com/). The conversation is happening not because QuestPDF did anything wrong. It is happening because the company grew.
+Many teams reach the moment described above. The architectural decision they are about to revisit is one they made under different conditions: smaller team, no revenue, optimistic timeline. The library they chose was, in many cases, [QuestPDF](https://www.questpdf.com/). The conversation is happening not because QuestPDF did anything wrong. It is happening because the company grew.
 
 That is a good problem to have. It is also a problem with a number on it.
 
@@ -62,7 +62,7 @@ Anyone who has tried to drive a PDF generator with imperative coordinates and cu
 
 That accessibility is the real reason QuestPDF caught on. The .NET ecosystem has had PDF libraries for two decades, but until QuestPDF, it did not have a free one whose API felt designed by someone who actually likes writing C#. The library's [documentation](https://www.questpdf.com/) is also unusually good for an open-source project: complete, organized, with worked examples for the layout primitives most teams will need.
 
-So when I say QuestPDF is good, I mean it. If your annual gross revenue is under $1M USD, QuestPDF is a defensible default and arguably the strongest free option in the .NET PDF space. The Community MIT License lets you ship it in a closed-source commercial product without ambiguity. The maintainer cadence is real. The API is good. There is no asterisk on this paragraph.
+QuestPDF is genuinely good. If your annual gross revenue is under $1M USD, QuestPDF is a defensible default and arguably the strongest free option in the .NET PDF space. The Community MIT License lets you ship it in a closed-source commercial product without ambiguity. The maintainer cadence is real. The API is good. There is no asterisk on this paragraph.
 
 The asterisk lives on the next page of the same document.
 
@@ -76,13 +76,13 @@ The asterisk lives on the next page of the same document.
 
 **Tier 3: Enterprise License ($2,999, perpetual, plus local tax).** Required when your company has crossed the $1M threshold and has more than 10 developers using QuestPDF (organization-wide, no per-seat counting). Same perpetual structure as Professional.
 
-A note on the pricing model: this is a perpetual license, not a subscription. The version you pay for never stops working, even if you decline renewal. Most growing teams will renew anyway, because they want the security patches and feature updates that ship in subsequent releases — but the renewal is for *updates*, not for the right to keep running the library at all. Throughout the rest of this article, when we model "$999/year" or "$2,999/year" we mean the renewal cadence most teams will adopt, not a subscription that switches off if missed.
+A note on the pricing model: this is a perpetual license, not a subscription. The version you pay for never stops working, even if you decline renewal. Most growing teams will renew anyway, because they want the security patches and feature updates that ship in subsequent releases, but the renewal is for *updates*, not for the right to keep running the library at all. Throughout the rest of this article, when we model "$999/year" or "$2,999/year" we mean the renewal cadence most teams will adopt, not a subscription that switches off if missed.
 
 Now we have enough to model.
 
 ## The hidden threshold: why QuestPDF isn't truly free for growing companies
 
-The "Community" framing on QuestPDF's MIT tier is accurate as the maintainer has documented it, and the documentation is the cleanest in the .NET PDF ecosystem on the question. The framing is also, structurally, a soft trap for any company whose trajectory is "small now, growing." The trap is not in the license terms — those are published openly. It is in the cognitive shape of how teams adopt the library.
+The "Community" framing on QuestPDF's MIT tier is accurate as the maintainer has documented it, and the documentation is the cleanest in the .NET PDF ecosystem on the question. The framing is also, structurally, a soft trap for any company whose trajectory is "small now, growing." The license terms themselves are published openly; the trap lies in the cognitive shape of how teams adopt the library.
 
 Three properties of QuestPDF's commercial gate are worth surfacing explicitly.
 
@@ -118,7 +118,7 @@ If your company crosses the revenue threshold and your engineering culture is co
 
 ### State C: Cross the threshold, migrate away
 
-This is the most expensive path, and the one I see most often.
+This is the most expensive path, and a common one.
 
 The pattern: a company adopted QuestPDF at the seed stage. Three years later, revenue is approaching $1M. Someone in finance flags the licensing terms during a vendor audit. The engineering team's first instinct is to evaluate alternatives rather than sign a license, partly cost-optimization reflex, partly accumulated frustration with one or two QuestPDF-shaped corners in the codebase, partly because nobody likes being told they have to buy something they used to get free.
 
@@ -136,39 +136,18 @@ Compare that to a Professional License: $999 a year for ten years before the mig
 
 Migration only makes financial sense if you are moving *to* something that solves a problem the licensing fee does not, or if your migration target was always going to be necessary anyway because of feature requirements QuestPDF does not cover: HTML-to-PDF rendering, digital signatures, PDF/A archival output, accessibility tagging, OCR integration. For those workflows, the license fee is not the deciding number. The feature gap is.
 
-Which brings me to the alternative my company sells.
-
-### State D: Commercial library from day one
-
-[IronPDF](https://ironpdf.com/licensing/) sits at a different price point. The Lite License is $999 (perpetual), Plus is $1,499 for three developers, Professional is $2,999 for ten developers, and Unlimited is $5,999. These are perpetual fees: pay once, with optional annual updates. Compared to QuestPDF, the day-one cost is non-trivial. There is no $0 tier.
-
-The TCO comparison is not "IronPDF is cheaper than QuestPDF." It is not. For a sub-threshold company that only needs the features QuestPDF covers, QuestPDF wins on cost without a serious counter-argument.
-
-The TCO comparison is "IronPDF eliminates the migration scenario." If your company is on a trajectory to cross $1M revenue within two to three years, and your PDF needs include any of HTML rendering, signatures, PDF/A, or full document editing, then choosing IronPDF on day one avoids the State C engineering-cost spike *and* delivers features QuestPDF does not.
-
-Simplified math. A company that:
-
-- Will cross $1M revenue in year 3.
-- Has 6 backend engineers who will touch the PDF generation code.
-- Needs HTML-to-PDF rendering for customer statements.
-- Needs digital signatures for audit-trail documents.
-
-Choosing QuestPDF on day one and migrating in year 3 costs an estimated $45K to $90K in engineering spend, plus the cost of bolting on a separate library for HTML rendering and signatures (a second integration on top of the migration). Choosing a commercial library from day one costs $1,499 to $2,999 perpetual and removes the migration entirely. The crossover happens before the end of year 1.
-
-Choosing QuestPDF on day one and licensing it in year 3 costs $999/year from year 3 onward, but only solves the licensing problem. It does not solve the feature problem if you have one.
-
 ## The decision is not about quality
 
-This article is not saying QuestPDF is bad. The math says no such thing. QuestPDF is technically excellent, the maintainer's commercial model is reasonable, and the price points are fair for what is offered.
+Nothing here says QuestPDF is bad. QuestPDF is technically excellent, the maintainer's commercial model is reasonable, and the price points are fair for what is offered.
 
 The decision is about *fit*: what curve your company is on, what features you need, and how much engineering time you are willing to spend on a migration that buys nothing your users will see.
 
 For the company under $1M in revenue, whose PDF needs are layout-focused and whose roadmap does not include the features QuestPDF has chosen not to build, the answer is QuestPDF. That answer is not even close. There is no commercial library at the same price.
 
-For the company growing into the $1M boundary, whose PDF surface area is large and whose feature roadmap includes any of the items on the list above, the question worth asking before adopting any free PDF library is the question I started this piece with: what does the board meeting in year three look like?
+For the company growing into the $1M boundary, whose PDF surface area is large and whose feature roadmap includes any of the items on the list above, the question worth asking before adopting any free PDF library is the one this piece opened with: what does the board meeting in year three look like?
 
 If the answer makes you reach for a calculator, you have already done the analysis. The numbers will tell you the rest.
 
----
+## When your input is HTML, not C#
 
-*Jacob Mellor is CTO and co-founder of [Iron Software](https://ironsoftware.com/), maker of [IronPDF](https://ironpdf.com/) and other commercial .NET libraries. Pricing and license terms cited in this article were verified against publicly available sources in May 2026.*
+QuestPDF builds documents from a C# layout API and **deliberately does not render HTML**. That is a clean model when the document originates in code, and an awkward one when the source of truth is an HTML or Razor template produced by a design team, an email system, or an existing web view, because reproducing that layout means rebuilding it by hand. Teams in that position, along with companies that have crossed QuestPDF's $1M revenue line and would rather buy a perpetual license with support than re-architect, usually want an HTML-first renderer. A commercial library can provide that. IronPDF, for example, takes [an HTML string straight to PDF](https://ironpdf.com/how-to/html-string-to-pdf/) and [renders Razor and Blazor components](https://ironpdf.com/how-to/razor-to-pdf-blazor-server/) directly, keeping the template as the source of truth instead of porting it into layout code.
