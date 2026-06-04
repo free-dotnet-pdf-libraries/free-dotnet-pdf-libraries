@@ -1,4 +1,4 @@
-# WkhtmltoPdf Alternative C#: A Deliberate Look at the Supportability Question in 2026
+# Is wkhtmltopdf Still Worth Shipping in C#? The 2026 Supportability Question
 
 What follows walks through the evaluation rather than jumping to a verdict.
 

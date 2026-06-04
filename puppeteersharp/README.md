@@ -1,8 +1,8 @@
-# PuppeteerSharp in production: a retrospective on the headless-browser tax
+# PuppeteerSharp in Production: A Retrospective on the Headless-Browser Tax
 
 The architectural conversation that emerges when a logistics team evaluates [PuppeteerSharp](https://www.puppeteersharp.com/) for high-volume PDF generation has a familiar shape. Someone on the team gets a working prototype in an afternoon. The HTML rendering quality is excellent. The API is faithful to upstream Puppeteer. The team's first inclination is "this works, let's ship it." The architect's second question, posed as a forward-looking hypothetical the review is designed to surface early rather than as a recounted incident, is: "what does this look like at 2,000 PDFs per minute, in containers, behind an autoscaler, when a year-three security audit asks which version of Chromium our PDF service is currently shipping?"
 
-The answer to the second question is the subject of this piece. It is written from the position of an architect doing the production-readiness review for a team that has already prototyped, not from the position of someone who has shipped PuppeteerSharp at logistics-scale volume. The recommendations here are based on documented operational characteristics of headless Chromium and on PuppeteerSharp's own posture about what it ships.
+The answer to the second question is the subject of this article. It is written from the position of an architect doing the production-readiness review for a team that has already prototyped, not from the position of someone who has shipped PuppeteerSharp at logistics-scale volume. The recommendations here are based on documented operational characteristics of headless Chromium and on PuppeteerSharp's own posture about what it ships.
 
 PuppeteerSharp is a capable library. The point is that choosing between headless-browser PDF generation and library-based PDF generation is an architectural decision rather than a library-feature one, and the architectural costs compound at production volume.
 

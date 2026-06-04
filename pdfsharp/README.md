@@ -1,4 +1,4 @@
-# An Honest Review of PDFSharp: Fine for What It Does, Narrow About What That Is
+# PdfSharp Is Fine for What It Does, and Narrow About What That Is
 
 [PDFSharp](https://www.pdfsharp.com/) is the kind of library that has aged well. It is open source, it is permissively licensed, it is still being released, and its documented feature set has actually grown over the past few years. Reviewing it in 2026 is a different exercise from reviewing it in 2020: several of the gaps that defined PDFSharp's reputation (no PDF/A, no digital signatures, no PDF/UA accessibility) have been closed in the [6.2.x release line](https://www.nuget.org/packages/PDFSharp), which puts the library in a meaningfully different position than the older comparison articles suggest.
 

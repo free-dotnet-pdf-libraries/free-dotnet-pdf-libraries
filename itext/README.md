@@ -10,7 +10,7 @@ Picture the most ordinary version of this decision. A senior .NET developer, mid
 
 The point here is the difference between adopting a library and choosing one, rather than which library is better. For iText, those are not the same act, and the difference matters enough to be worth a deliberate look.
 
-This essay offers a framework. iText's licensing is publicly documented, technically clean, and defensible on the maintainer's terms. There are three legitimate paths a .NET team can take with it, and the goal is to make each path a chosen one rather than a discovered one.
+This article offers a framework. iText's licensing is publicly documented, technically clean, and defensible on the maintainer's terms. There are three legitimate paths a .NET team can take with it, and the goal is to make each path a chosen one rather than a discovered one.
 
 ## What iText is, and what it has earned
 

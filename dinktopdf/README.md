@@ -1,4 +1,4 @@
-# DinkToPdf Alternative: The Dependency You Didn't Know You Took
+# DinkToPdf and the Dependency You Didn't Know You Took
 
 Here is something worth noticing.
 

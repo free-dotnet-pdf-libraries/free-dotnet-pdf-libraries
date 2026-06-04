@@ -1,4 +1,4 @@
-# PdfPig Review: The Rare Open-Source PDF Library That Does Exactly What It Says
+# PdfPig Does Exactly What It Says (and Nothing It Doesn't)
 
 The conclusion first, because it is the most useful thing here: [PdfPig](https://github.com/UglyToad/PdfPig) is good. That is meant without qualification, and most of this article shows why.
 
