@@ -1,4 +1,4 @@
-# iText Commercial License Cost: A CTO's Framework for the Three Legitimate Adoption Paths
+# iText Commercial License Cost: A Framework for the Three Legitimate Adoption Paths
 
 *A decision framework for .NET teams reaching for `dotnet add package itext7`: read the dual-license structure deliberately, choose the path that fits your situation, and adopt with intent rather than by default.*
 
